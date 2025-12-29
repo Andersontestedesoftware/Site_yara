@@ -94,6 +94,8 @@ a:hover { text-decoration: underline; }
   font-family: "Playfair Display", serif;
   font-size: 20px;
   line-height: 1;
+  will-change: transform, opacity;
+  animation: icon-pop 900ms cubic-bezier(.2,.9,.2,1) both;
 }
 
 .brand__text { display: flex; flex-direction: column; line-height: 1.2; }
@@ -569,6 +571,21 @@ input:focus, textarea:focus, select:focus {
   display: grid;
   place-items: center;
   background: rgba(255, 255, 255, 0.22);
+  will-change: transform, opacity;
+  animation: icon-pop 1000ms cubic-bezier(.2,.9,.2,1) 180ms both;
+}
+
+@keyframes icon-pop {
+  0% { opacity: 0; transform: translateY(18px) scale(0.85); filter: blur(0.4px); }
+  60% { opacity: 1; transform: translateY(-2px) scale(1.03); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand__mark,
+  .fab__icon {
+    animation: none;
+  }
 }
 
 .fab__text { font-size: 14px; }
