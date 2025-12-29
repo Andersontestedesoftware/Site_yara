@@ -92,6 +92,8 @@ a:hover { text-decoration: underline; }
   color: #0b1220;
   font-weight: 800;
   font-family: "Playfair Display", serif;
+  font-size: 20px;
+  line-height: 1;
 }
 
 .brand__text { display: flex; flex-direction: column; line-height: 1.2; }
@@ -165,9 +167,33 @@ a:hover { text-decoration: underline; }
   font-weight: 800;
   box-shadow: 0 18px 40px rgba(214, 178, 94, 0.18);
   text-decoration: none;
+  transform: translateY(0);
+  transition:
+    transform 140ms ease,
+    filter 140ms ease,
+    box-shadow 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+  cursor: pointer;
+  user-select: none;
 }
 
-.btn:hover { filter: brightness(1.05); text-decoration: none; }
+.btn:hover {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  box-shadow: 0 22px 54px rgba(214, 178, 94, 0.22);
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: translateY(0);
+  filter: brightness(1.02);
+}
+
+.btn:focus-visible {
+  outline: 3px solid rgba(214, 178, 94, 0.35);
+  outline-offset: 3px;
+}
 
 .btn--outline {
   background: transparent;
@@ -177,7 +203,8 @@ a:hover { text-decoration: underline; }
 }
 
 .btn--outline:hover {
-  border-color: rgba(214, 178, 94, 0.5);
+  border-color: rgba(214, 178, 94, 0.55);
+  background: rgba(214, 178, 94, 0.10);
 }
 
 .btn--ghost {
@@ -187,7 +214,10 @@ a:hover { text-decoration: underline; }
   box-shadow: none;
 }
 
-.btn--ghost:hover { border-color: rgba(214, 178, 94, 0.55); }
+.btn--ghost:hover {
+  border-color: rgba(214, 178, 94, 0.55);
+  background: rgba(214, 178, 94, 0.10);
+}
 
 .hero {
   padding: 62px 0 34px;
@@ -378,15 +408,84 @@ h1 {
   background: rgba(255, 255, 255, 0.05);
   box-shadow: var(--shadow);
   padding: 12px 14px;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
 }
 
 .faq__item summary {
   cursor: pointer;
   font-weight: 800;
   color: var(--text);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
 }
 
-.faq__content { color: var(--muted); padding-top: 10px; }
+/* Remove o marcador padrão (seta) no Chrome/Safari */
+.faq__item summary::-webkit-details-marker { display: none; }
+
+.faq__item summary::after {
+  content: "▾";
+  font-weight: 900;
+  color: var(--accent2);
+  transition: transform 160ms ease;
+}
+
+.faq__item summary:hover {
+  color: var(--accent2);
+}
+
+.faq__item summary:focus-visible {
+  outline: 3px solid rgba(214, 178, 94, 0.28);
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+
+.faq__item:active { transform: translateY(0); }
+
+.faq__item[open] {
+  border-color: rgba(214, 178, 94, 0.35);
+  background: rgba(214, 178, 94, 0.08);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.36);
+}
+
+.faq__item[open] summary::after { transform: rotate(180deg); }
+
+.faq__content {
+  color: var(--muted);
+  padding-top: 10px;
+  overflow: hidden;
+}
+
+/*
+  Efeito de abertura mais visível:
+  - animamos um wrapper interno (injetado via CSS) com height + fade
+  - funciona bem com <details> sem JS
+*/
+.faq__content > * { margin-top: 0; }
+
+.faq__item .faq__content {
+  opacity: 0;
+  transform: translateY(-6px);
+  max-height: 0;
+  transition: max-height 240ms ease, opacity 180ms ease, transform 180ms ease;
+}
+
+.faq__item[open] .faq__content {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 400px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__item .faq__content,
+  .faq__item[open] .faq__content {
+    transition: none;
+    transform: none;
+  }
+}
 
 .form .field { display: grid; gap: 6px; margin-bottom: 12px; }
 .form label { font-weight: 700; font-size: 13px; color: var(--muted); }
