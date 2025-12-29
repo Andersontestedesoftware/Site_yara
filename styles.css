@@ -425,11 +425,6 @@ input:focus, textarea:focus, select:focus {
 
 .form__actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 
-/* Mantém os CTAs do formulário com tamanho consistente (Enviar x WhatsApp) */
-.form__actions .btn {
-  min-width: 150px;
-}
-
 .contactCard h3 { margin-top: 0; }
 
 .contactGrid {
